@@ -24,6 +24,7 @@ class CommentsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        //
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_comments, container, false)
         return binding.root
 
