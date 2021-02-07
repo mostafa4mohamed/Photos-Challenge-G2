@@ -1,7 +1,7 @@
 package com.group.koinandcoroutiens.utils
 
 import android.app.Application
-import com.group.koinandcoroutiens.data.network.ApiClient
+import com.group.koinandcoroutiens.di.Modules
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,8 +17,7 @@ class BaseApp : Application() {
             androidContext(this@BaseApp)
             modules(
                 listOf(
-                    ApiClient.homeModule,
-                    ApiClient.mainModule
+                   Modules.modules
                 )
             )
 

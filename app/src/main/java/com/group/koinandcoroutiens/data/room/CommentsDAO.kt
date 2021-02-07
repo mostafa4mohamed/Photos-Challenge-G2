@@ -4,15 +4,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.group.koinandcoroutiens.pojo.response.PhotosResponseItem
+import com.group.koinandcoroutiens.pojo.response.Comment
 
 @Dao
-interface DAO {
+interface CommentsDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPhotos(data: List<PhotosResponseItem>)
+    fun insertComments(data: List<Comment>)
 
-    @Query("SELECT * FROM Photos")
-    fun photos(): List<PhotosResponseItem>
+    @Query("SELECT * FROM Comment where postId=:postId")
+    fun comments(postId:Int): List<Comment>
 
 }
