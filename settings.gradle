@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Koin and Coroutiens"
+rootProject.name = "Photos Challenge"

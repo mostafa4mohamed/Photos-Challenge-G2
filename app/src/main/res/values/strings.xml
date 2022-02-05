@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">Koin and Coroutiens</string>
+    <string name="app_name">Photos Challenge</string>
     <string name="test">test</string>
+    <string name="example_for_ad_banner">Example for ad banner</string>
     <string name="internet_connection">Check Internet connection firstly :)</string>
     <string name="know_error">Know Error</string>
-    <string name="name">Name</string>
-    <string name="e_mail">E-mail</string>
-    <string name="posts">Posts</string>
-    <string name="comments">Comments</string>
-</resources>
+    <string name="x_api_key_error">x_api_key_error</string>
+    <string name="auth_error">auth_error</string>
+    <string name="known_error">known_error</string></resources>

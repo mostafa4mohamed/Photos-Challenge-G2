@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.group.koinandcoroutiens">
+    package="com.group.photos_challenge">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,11 +11,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".utils.BaseApp"
+        android:name="com.group.photos_challenge.di.BaseApp"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.KoinAndCoroutiens"
-        tools:targetApi="m">
-        <activity android:name=".ui.MainActivity">
+        tools:targetApi="m"
+        tools:ignore="AllowBackup">
+        <activity android:name="com.group.photos_challenge.ui.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

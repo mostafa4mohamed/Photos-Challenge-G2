@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/postsFragment">
+    app:startDestination="@id/photosFragment">
 
     <fragment
-        android:id="@+id/postsFragment"
-        android:name="com.group.koinandcoroutiens.ui.posts.PostsFragment"
-        android:label="fragment_posts"
-        tools:layout="@layout/fragment_posts" />
+        android:id="@+id/photosFragment"
+        android:name="com.group.photos_challenge.ui.photos.PhotosFragment"
+        android:label="fragment_photos"
+        tools:layout="@layout/fragment_photos" />
     <fragment
-        android:id="@+id/commentsFragment"
-        android:name="com.group.koinandcoroutiens.ui.comments.CommentsFragment"
-        android:label="fragment_comments"
-        tools:layout="@layout/fragment_comments" />
+        android:id="@+id/photoDetailsFragment"
+        android:name="com.group.photos_challenge.ui.photo_details.PhotoDetailsFragment"
+        android:label="fragment_photo_details"
+        tools:layout="@layout/fragment_photo_details" />
+
 </navigation>
