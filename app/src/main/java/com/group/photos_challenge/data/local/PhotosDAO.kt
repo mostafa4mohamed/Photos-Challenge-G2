@@ -12,7 +12,7 @@ interface PhotosDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPhotos(data: List<Photo>)
 
-    @Query("SELECT * FROM Photo LIMIT :start,:count_of_items_at_page ")
+    @Query("SELECT * FROM Photo LIMIT :start,:count_of_items_at_page")
     fun photos(count_of_items_at_page: Int, start: Int): List<Photo>
 
     @Query("SELECT COUNT(*) FROM Photo")

@@ -3,12 +3,12 @@ package com.group.photos_challenge.ui.photo_details
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.group.photos_challenge.R
@@ -17,7 +17,7 @@ import com.group.photos_challenge.utils.Constants
 import com.group.photos_challenge.utils.PhotoLoaderListener
 import com.group.photos_challenge.utils.Utils
 
-class PhotoDetailsFragment : Fragment() {
+class PhotoDetailsFragment : DialogFragment() {
 
     private lateinit var binding: FragmentPhotoDetailsBinding
     private lateinit var navController: NavController
@@ -39,19 +39,18 @@ class PhotoDetailsFragment : Fragment() {
 
         ui()
 
-//        onBack()
+        onBack()
 
     }
 
     private fun ui() {
 
-        Utils.loadImage(requireArguments().getString(Constants.PHOTO_URL)!!,
+        Utils.loadImage(binding.imgView,
+            requireArguments().getString(Constants.PHOTO_URL)!!,
             object : PhotoLoaderListener {
-                override fun onLoadFinished(bitmap: Bitmap) {
+                override fun onLoadFinished() {
 
                     binding.progressBar.visibility = View.GONE
-
-                    binding.imgView.setImageBitmap(bitmap)
 
                 }
             })
@@ -75,7 +74,7 @@ class PhotoDetailsFragment : Fragment() {
 
     private fun finish() {
 
-        navController.popBackStack()
+       dismiss()
 
     }
 

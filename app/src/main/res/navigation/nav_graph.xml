@@ -10,7 +10,7 @@
         android:name="com.group.photos_challenge.ui.photos.PhotosFragment"
         android:label="fragment_photos"
         tools:layout="@layout/fragment_photos" />
-    <fragment
+    <dialog
         android:id="@+id/photoDetailsFragment"
         android:name="com.group.photos_challenge.ui.photo_details.PhotoDetailsFragment"
         android:label="fragment_photo_details"

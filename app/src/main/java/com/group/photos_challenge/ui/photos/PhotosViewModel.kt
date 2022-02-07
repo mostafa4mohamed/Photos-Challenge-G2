@@ -1,5 +1,6 @@
 package com.group.photos_challenge.ui.photos
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.group.photos_challenge.data.network.PhotosServices
 import com.group.photos_challenge.data.local.RoomManger
@@ -26,12 +27,16 @@ class PhotosViewModel(
 
         _photosStateFlow.value = NetworkState.Loading
 
+        Log.e(TAG, "loadPosts: 1")
+
         CoroutineScope(Dispatchers.IO).launch {
 
             runCatching { mPhotosServices.getPhotos(page = page) }
                 .onSuccess {
 
                     if (it.isSuccessful && it.body() != null) {
+
+                        Log.e(TAG, "loadPosts: 5")
 
                         _photosStateFlow.value = NetworkState.Result(it.body())
 
@@ -43,9 +48,14 @@ class PhotosViewModel(
 
                 }.onFailure {
 
+                    Log.e(TAG, "loadPosts: 2")
+
                     if (it is UnknownHostException) {
+                        Log.e(TAG, "loadPosts: 3")
                         offLine(page = page, per_page = perPage, _pages = pages, _total = total)
                     } else {
+                        Log.e(TAG, "loadPosts: 4")
+                        Log.e(TAG, "loadPosts: ${it.message}")
                         _photosStateFlow.value = NetworkState.Error(Constants.Codes.EXCEPTIONS_CODE)
                     }
 
@@ -57,9 +67,11 @@ class PhotosViewModel(
 
     private fun offLine(page: Int, per_page: Int, _pages: Int, _total: Int) {
 
-        val perPage = if (per_page == 0) 20 else per_page
+        val perPage = if (per_page == 1) 20 else per_page
         var total = _total
         var pages = _pages
+
+        Log.e(TAG, "loadPosts: 6")
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -68,9 +80,14 @@ class PhotosViewModel(
                 pages = total / perPage
             }
 
-            val data = roomManger.photosDAO().photos(perPage, (page - 1) * perPage)
+            val start = (page - 1) * perPage
+
+            Log.e(TAG, "loadPosts: 7 start $start p $perPage")
+            val data = roomManger.photosDAO().photos(perPage, start)
 
             if (data.isNotEmpty()) {
+                Log.e(TAG, "loadPosts: 8")
+                Log.e(TAG, "loadPosts: 9 ${data.size}")
 
                 _photosStateFlow.value =
                     NetworkState.Result(

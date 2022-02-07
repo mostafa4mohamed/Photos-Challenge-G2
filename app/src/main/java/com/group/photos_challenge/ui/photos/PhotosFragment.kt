@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.group.photos_challenge.R
 import com.group.photos_challenge.databinding.FragmentPhotosBinding
 import com.group.photos_challenge.pojo.response.Photo
@@ -30,13 +29,13 @@ class PhotosFragment : Fragment(), RecyclerViewOnClickListener {
     private val viewModel: PhotosViewModel by inject()
     private lateinit var navController: NavController
     private lateinit var mContext: Context
-    private var pageNum = 0
-    private var pageSize = 0
-    private var pages = 0
-    private var total = 0
+    private lateinit var layoutManager: LinearLayoutManager
+    private var pageNum = 1
+    private var pageSize = 1
+    private var pages = 1
+    private var total = 1
     private var isLastPage = false
     private var isLoading = false
-    var loading = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,20 +53,12 @@ class PhotosFragment : Fragment(), RecyclerViewOnClickListener {
 
         navController = findNavController()
         mContext = requireContext()
-        binding.lifecycleOwner = this
         photosAdapter = PhotosAdapter(this)
 
-        binding.rvMain.adapter = photosAdapter
+
+        setUp()
 
         data()
-//        pagination()
-
-    }
-
-
-    private fun data(page: Int = 1) {
-
-        viewModel.loadPosts(page = page, perPage = pageSize, pages = pages, total = total)
 
         lifecycleScope.launchWhenStarted {
 
@@ -77,16 +68,16 @@ class PhotosFragment : Fragment(), RecyclerViewOnClickListener {
                         return@collect
                     }
                     is NetworkState.Loading -> {
-                        if (page == 1) visMainProgress(true)
+                        if (pageNum == 1) visMainProgress(true)
                         else visFooterProgress(true)
                     }
                     is NetworkState.Error -> {
-                        if (page == 1) visMainProgress(true)
+                        if (pageNum == 1) visMainProgress(true)
                         else visFooterProgress(true)
                         it.handleErrors(mContext)
                     }
                     is NetworkState.Result<*> -> {
-                        if (page == 1) visMainProgress(false)
+                        if (pageNum == 1) visMainProgress(false)
                         else visFooterProgress(false)
 
                         handleResult(it.response as PhotosResponse)
@@ -96,6 +87,26 @@ class PhotosFragment : Fragment(), RecyclerViewOnClickListener {
 
             }
         }
+
+    }
+
+    private fun setUp() {
+
+        layoutManager =
+            LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+
+        binding.rvMain.layoutManager = layoutManager
+        binding.rvMain.adapter = photosAdapter
+
+
+    }
+
+
+    private fun data(page: Int = 1) {
+
+        viewModel.loadPosts(page = page, perPage = pageSize, pages = pages, total = total)
+
+
 
     }
 
@@ -123,12 +134,7 @@ class PhotosFragment : Fragment(), RecyclerViewOnClickListener {
 
     private fun pagination() {
 
-        val layoutManager =
-            LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-
-        binding.rvMain.layoutManager = layoutManager
-
-        binding.rvMain.addOnScrollListener(object :
+           binding.rvMain.addOnScrollListener(object :
             PaginationListener(layoutManager, pageSize) {
 
             override fun loadMoreItems() {
@@ -153,63 +159,6 @@ class PhotosFragment : Fragment(), RecyclerViewOnClickListener {
                 get() = this@PhotosFragment.isLoading
 
         })
-    }
-
-    fun test() {
-
-        Log.e(TAG, "onScrolled: 0")
-
-        var pastVisiblesItems: Int
-        var visibleItemCount: Int
-        var totalItemCount: Int
-
-        val mLayoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-        binding.rvMain.layoutManager = mLayoutManager
-
-        binding.rvMain.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                Log.e(TAG, "onScrolled: 1")
-                if (dy > 0) { //check for scroll down
-                    Log.e(TAG, "onScrolled: 2")
-                    visibleItemCount = mLayoutManager.childCount
-                    totalItemCount = mLayoutManager.itemCount
-                    pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition()
-                    if (loading) {
-                        Log.e(TAG, "onScrolled: loading true")
-                        if (visibleItemCount + pastVisiblesItems >= totalItemCount
-                            && pastVisiblesItems >= 0
-                            && totalItemCount >= 10/*PAGE_SIZE*/) {
-                            Log.e(TAG, "onScrolled: page true")
-                            loading = false
-                            pageNum++
-
-
-                            if (pageNum <= pages) {
-                                Log.e(TAG, "doPaginationApiCall: true")
-                                loading = false
-                            } else {
-                                Log.e(TAG, "doPaginationApiCall: false")
-                                isLastPage = true
-                                return
-                            }
-
-                            data(pageNum)
-                        } else {
-                            Log.e(TAG, "onScrolled: page false")
-                        }
-                    } else {
-                        Log.e(TAG, "onScrolled: loading false")
-
-                    }
-                } else {
-                    Log.e(TAG, "onScrolled: 3")
-                }
-            }
-        })
-
-
     }
 
     override fun onRootClickListener(url: String) {

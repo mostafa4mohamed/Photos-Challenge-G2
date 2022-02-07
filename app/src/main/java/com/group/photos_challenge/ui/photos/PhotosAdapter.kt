@@ -1,7 +1,7 @@
 package com.group.photos_challenge.ui.photos
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,18 +56,24 @@ class PhotosAdapter(private val listener: RecyclerViewOnClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is BannerHolder -> holder.bind()
-            is PhotoHolder -> holder.bind(list[position] as Photo)
+            is BannerHolder -> holder.bind(position)
+            is PhotoHolder -> holder.bind(list[position] as Photo, position)
         }
 
     }
 
     override fun getItemCount(): Int = list.size
 
-    inner class BannerHolder(binding: ItemAdBannerBinding) :
+    inner class BannerHolder(private val binding: ItemAdBannerBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind() {
+        @SuppressLint("SetTextI18n")
+        fun bind(position: Int) {
+
+            val mContext = binding.root.context
+
+            binding.tvTitle.text =
+                "${mContext.getString(R.string.example_for_ad_banner)} ${(position + 1) / 6}"
 
         }
 
@@ -76,19 +82,19 @@ class PhotosAdapter(private val listener: RecyclerViewOnClickListener) :
     inner class PhotoHolder(private val binding: ItemPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Photo) {
+        fun bind(item: Photo, position: Int) {
+
+            Log.e(TAG, "bind: ${item.id} p $position")
 
             binding.tvTitle.text = item.title
 
             val url = Utils.imgUrl(item.farm, item.server, item.id, item.secret)
 
-            Utils.loadImage(url,
+            Utils.loadImage(binding.img, url,
                 object : PhotoLoaderListener {
-                    override fun onLoadFinished(bitmap: Bitmap) {
+                    override fun onLoadFinished() {
 
                         binding.progressBar.visibility = View.GONE
-
-                        binding.img.setImageBitmap(bitmap)
 
                     }
                 })

@@ -4,6 +4,7 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class BaseApp : Application() {
 
@@ -12,7 +13,8 @@ class BaseApp : Application() {
 
         startKoin {
 
-            androidLogger()//Level.NONE
+//            androidLogger()
+             Level.NONE
             androidContext(this@BaseApp)
             modules(
                 listOf(
