@@ -1,9 +1,15 @@
 <resources>
-    <string name="app_name">Photos Challenge</string>
+    <string name="app_name">Photos Challenge G2</string>
     <string name="test">test</string>
-    <string name="example_for_ad_banner">Example for ad banner</string>
     <string name="internet_connection">Check Internet connection firstly :)</string>
     <string name="know_error">Know Error</string>
     <string name="x_api_key_error">x_api_key_error</string>
     <string name="auth_error">auth_error</string>
-    <string name="known_error">known_error</string></resources>
+    <string name="known_error">known_error</string>
+    <string name="empty_data">Empty Data</string>
+    <string name="name">Name :</string>
+    <string name="albums">Albums :</string>
+    <string name="photos">Photos</string>
+    <string name="search">search</string>
+    <string name="enter_search_key">enter search key</string>
+</resources>

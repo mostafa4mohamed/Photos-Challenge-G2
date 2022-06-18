@@ -3,16 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/photosFragment">
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.group.photos_challenge_g2.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/photosFragment"
-        android:name="com.group.photos_challenge.ui.photos.PhotosFragment"
+        android:name="com.group.photos_challenge_g2.ui.photos.PhotosFragment"
         android:label="fragment_photos"
         tools:layout="@layout/fragment_photos" />
-    <dialog
+
+    <fragment
         android:id="@+id/photoDetailsFragment"
-        android:name="com.group.photos_challenge.ui.photo_details.PhotoDetailsFragment"
+        android:name="com.group.photos_challenge_g2.ui.photo_details.PhotoDetailsFragment"
         android:label="fragment_photo_details"
         tools:layout="@layout/fragment_photo_details" />
 
